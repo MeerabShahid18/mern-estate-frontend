@@ -120,12 +120,7 @@ export default function Search() {
     const urlParams=new URLSearchParams(location.search);
     urlParams.set('startIndex', startIndex);
     const searchquery = urlParams.toString();
-    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/listing/get?${searchquery}`,
-      {
-      method: 'GET', // ya POST (jo backend me ho)
-      credentials: 'include', // ⭐ MUST ADD
-    },
-    );
+    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/listing/get?${searchquery}`);
     const data=await res.json();
     if(data.length < 9){
         setShowMore(false);

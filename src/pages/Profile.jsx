@@ -141,12 +141,7 @@ const handlesignout=async()=>{
 const handleShowListings=async()=>{
   try {
     setShowListingsError(false);
-    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/user/listings/${currentUser._id}`,
-      {
-      method: 'GET', // ya POST (jo backend me ho)
-      credentials: 'include', // ⭐ MUST ADD
-    }
-    );
+    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/user/listings/${currentUser._id}`);
     const data=await res.json();
     if(data.success === false){
       setShowListingsError(true);
