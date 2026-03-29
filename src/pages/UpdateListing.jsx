@@ -34,7 +34,12 @@ const [loading, setLoading] = useState(false);
 useEffect(()=>{
     const fetchListing=async()=>{
         const listingId=params.listingId;
-        const res=await fetch(`${import.meta.env.VITE_API_URL}/api/listing/get/${listingId}`)
+        const res=await fetch(`${import.meta.env.VITE_API_URL}/api/listing/get/${listingId}`,
+          {
+            method: 'GET', // ya POST (jo backend me ho)
+            credentials: 'include', // ⭐ MUST ADD
+          }
+        )
         const data=await res.json();
         if(data.success===false){
             console.log(data.message);
@@ -162,6 +167,7 @@ const handleChange = (e) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
           ...formData,
          userRef: currentUser?._id,

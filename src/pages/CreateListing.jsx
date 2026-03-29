@@ -139,11 +139,14 @@ const handleChange = (e) => {
         return setError('Discount price must be lower than regular price');
       setLoading(true);
       setError(false);
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listing/create`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listing/create`, 
+        {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${currentUser?.token}`,
         },
+        credentials: 'include',
         body: JSON.stringify({
           ...formData,
          userRef: currentUser?._id,
