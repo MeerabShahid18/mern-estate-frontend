@@ -14,6 +14,7 @@ export default function Header() {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set("searchTerm", searchTerm);
     navigate(`/search?${urlParams.toString()}`);
+    setMenuOpen(false); // mobile menu close after search
   };
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function Header() {
           </h1>
         </Link>
 
-        {/* Search */}
+        {/* Desktop Search */}
         <form
           onSubmit={handleSubmit}
           className="bg-slate-100 p-2 rounded-lg hidden sm:flex items-center w-64"
@@ -89,9 +90,27 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Menu */}
       {menuOpen && (
-        <ul className="sm:hidden bg-teal-700 px-4 py-3 flex flex-col gap-3">
+        <div className="sm:hidden bg-teal-700 px-4 py-4 flex flex-col gap-4">
+
+          {/* 🔍 Mobile Search */}
+          <form
+            onSubmit={handleSubmit}
+            className="bg-slate-100 p-2 rounded-lg flex items-center"
+          >
+            <input
+              type="text"
+              placeholder="Search..."
+              className="bg-transparent outline-none w-full text-sm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button>
+              <FaSearch className="text-slate-500" />
+            </button>
+          </form>
+
           <Link to="/" onClick={() => setMenuOpen(false)}>
             <li className="text-white">Home</li>
           </Link>
@@ -108,7 +127,7 @@ export default function Header() {
               {currentUser ? "Profile" : "Sign in"}
             </li>
           </Link>
-        </ul>
+        </div>
       )}
     </header>
   );
