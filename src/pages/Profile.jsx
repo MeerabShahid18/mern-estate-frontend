@@ -72,7 +72,6 @@ const handleUpdate = async (e) => {
   try {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/update/${currentUser._id}`, {
       method: "POST",
-      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
@@ -104,7 +103,6 @@ const handleDeleteUser= async()=>{
     dispatch(deleteUserStart());
     const res=await fetch(`${import.meta.env.VITE_API_URL}/api/user/delete/${currentUser._id}`,{
       method:'DELETE',
-      credentials: 'include',
     })
     const data =await res.json();
     if(data.success===false){
@@ -120,12 +118,7 @@ const handleDeleteUser= async()=>{
 const handlesignout=async()=>{
   try {
     dispatch(logoutUserStart());
-    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signout`,
-      {
-      method: 'GET', // ya POST (jo backend me ho)
-      credentials: 'include', // ⭐ MUST ADD
-    }
-    );
+    const res=await(fetch(`${import.meta.env.VITE_API_URL}/api/auth/signout`));
     const data=await res.json();
     if(data.success===false){
       dispatch(logoutUserFailure(data.message));
@@ -141,12 +134,7 @@ const handlesignout=async()=>{
 const handleShowListings=async()=>{
   try {
     setShowListingsError(false);
-    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/user/listings/${currentUser._id}`,
-      {
-         method: "GET",
-        credentials: 'include'
-      }
-    );
+    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/user/listings/${currentUser._id}`);
     const data=await res.json();
     if(data.success === false){
       setShowListingsError(true);
@@ -161,9 +149,7 @@ const handleShowListings=async()=>{
 const handleDeleteListing=async(listingId)=>{
   try {
     const res=await fetch(`${import.meta.env.VITE_API_URL}/api/listing/delete/${listingId}`,
-      {method:'DELETE', 
-      credentials: 'include', // ⭐ MUST ADD
-    });
+      {method:'DELETE'});
     const data=await res.json();
     if(data.success===false){
       setShowListingsError(true);
@@ -263,4 +249,3 @@ const handleDeleteListing=async(listingId)=>{
     </div>
   )
 } 
-
