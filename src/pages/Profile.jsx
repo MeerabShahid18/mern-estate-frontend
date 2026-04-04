@@ -75,6 +75,7 @@ const handleUpdate = async (e) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         username,
         email,
@@ -103,6 +104,7 @@ const handleDeleteUser= async()=>{
     dispatch(deleteUserStart());
     const res=await fetch(`${import.meta.env.VITE_API_URL}/api/user/delete/${currentUser._id}`,{
       method:'DELETE',
+      credentials:'include',
     })
     const data =await res.json();
     if(data.success===false){
@@ -118,7 +120,11 @@ const handleDeleteUser= async()=>{
 const handlesignout=async()=>{
   try {
     dispatch(logoutUserStart());
-    const res=await(fetch(`${import.meta.env.VITE_API_URL}/api/auth/signout`));
+    const res=await(fetch(`${import.meta.env.VITE_API_URL}/api/auth/signout`,
+      {
+        credentials:'include'
+      }
+    ));
     const data=await res.json();
     if(data.success===false){
       dispatch(logoutUserFailure(data.message));
@@ -126,7 +132,7 @@ const handlesignout=async()=>{
     }
     dispatch(logoutUserSuccess(data));
   } catch (error) {
-    dispatch(logoutUserFailure(data.message));
+    dispatch(logoutUserFailure(error.message));
     
   }
 }
@@ -134,7 +140,11 @@ const handlesignout=async()=>{
 const handleShowListings=async()=>{
   try {
     setShowListingsError(false);
-    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/user/listings/${currentUser._id}`);
+    const res=await fetch(`${import.meta.env.VITE_API_URL}/api/user/listings/${currentUser._id}`,
+      {
+       credentials: "include", // 🔥 MUST ADD
+      }
+    );
     const data=await res.json();
     if(data.success === false){
       setShowListingsError(true);
@@ -149,7 +159,9 @@ const handleShowListings=async()=>{
 const handleDeleteListing=async(listingId)=>{
   try {
     const res=await fetch(`${import.meta.env.VITE_API_URL}/api/listing/delete/${listingId}`,
-      {method:'DELETE'});
+      {method:'DELETE',
+        credentials:'include',
+      });
     const data=await res.json();
     if(data.success===false){
       setShowListingsError(true);
